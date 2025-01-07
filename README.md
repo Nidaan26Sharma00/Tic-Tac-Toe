@@ -1,20 +1,67 @@
 
 
-# Tic Tac Toe 
 
-This is a simple implementation of the classic Tic Tac Toe game written in Python. Play against another player in a 3x3 grid game.
+---
 
-## Features
-- Two-player mode
-- Clean console-based UI
-- Easy to play and modify
+### `tic_tac_toe.py`
+```python
+def print_board(board):
+    print("\n")
+    for row in board:
+        print(" | ".join(row))
+        print("-" * 9)
+    print("\n")
 
-## How to Run
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/your-username/tic-tac-toe.git
-2. Navigate to direcory:
-   cd tic-tac-toe
+def check_winner(board):
+    # Check rows, columns, and diagonals for a win
+    for row in board:
+        if row[0] == row[1] == row[2] != " ":
+            return row[0]
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] != " ":
+            return board[0][col]
+    if board[0][0] == board[1][1] == board[2][2] != " ":
+        return board[0][0]
+    if board[0][2] == board[1][1] == board[2][0] != " ":
+        return board[0][2]
+    return None
 
-3. Run the game:
-   python tic_tac_toe.py     
+def is_full(board):
+    return all(cell != " " for row in board for cell in row)
+
+def tic_tac_toe():
+    board = [[" " for _ in range(3)] for _ in range(3)]
+    current_player = "X"
+    
+    while True:
+        print_board(board)
+        print(f"Player {current_player}'s turn.")
+        
+        try:
+            row = int(input("Enter row (0-2): "))
+            col = int(input("Enter column (0-2): "))
+        except ValueError:
+            print("Please enter valid integers for row and column.")
+            continue
+
+        if row < 0 or row > 2 or col < 0 or col > 2 or board[row][col] != " ":
+            print("Invalid move. Try again.")
+            continue
+        
+        board[row][col] = current_player
+        winner = check_winner(board)
+        
+        if winner:
+            print_board(board)
+            print(f"Player {winner} wins!")
+            break
+        elif is_full(board):
+            print_board(board)
+            print("It's a tie!")
+            break
+
+        current_player = "O" if current_player == "X" else "X"
+
+if __name__ == "__main__":
+    tic_tac_toe()
+

@@ -28,6 +28,7 @@ def check_winner(board):
 
 def is_full(board):
     return all(cell != " " for row in board for cell in row)
+    
 
 def tic_tac_toe():
     board = [[" " for _ in range(3)] for _ in range(3)]
@@ -36,6 +37,8 @@ def tic_tac_toe():
     while True:
         print_board(board)
         print(f"Player {current_player}'s turn.")
+       
+
         
         try:
             row = int(input("Enter row (0-2): "))
